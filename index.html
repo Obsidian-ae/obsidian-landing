@@ -1,10 +1,13 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Obsidian — Business Management Apps</title>
 <meta name="description" content="Custom-branded business management web apps for small and medium businesses — inventory, sales, invoicing, customers, and an AI assistant, delivered as a monthly subscription.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --gold: #c69a58;
@@ -23,30 +26,41 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
     line-height: 1.6;
   }
+  html[dir="rtl"] body { font-family: "IBM Plex Sans Arabic", -apple-system, "Segoe UI", Tahoma, sans-serif; }
   .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
   header {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 24px 0;
+    padding: 24px 0; gap: 16px;
   }
   .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 20px; letter-spacing: 0.02em; }
   .brand-mark {
     width: 32px; height: 32px; border-radius: 8px;
     background: linear-gradient(135deg, var(--gold), #8a6a3a);
     display: flex; align-items: center; justify-content: center;
-    color: var(--bg); font-weight: 800; font-size: 16px;
+    color: var(--bg); font-weight: 800; font-size: 16px; flex-shrink: 0;
   }
-  nav a {
-    color: var(--text-dim); text-decoration: none; font-size: 14px; margin-left: 28px;
-  }
+  .header-right { display: flex; align-items: center; gap: 24px; }
+  nav { display: flex; gap: 28px; }
+  nav a { color: var(--text-dim); text-decoration: none; font-size: 14px; }
   nav a:hover { color: var(--text); }
+  .lang-toggle {
+    display: flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+    font-size: 13px; flex-shrink: 0;
+  }
+  .lang-toggle button {
+    background: none; border: none; color: var(--text-dim); padding: 6px 12px;
+    cursor: pointer; font-family: inherit; font-size: 13px; font-weight: 600;
+  }
+  .lang-toggle button.active { background: var(--gold); color: var(--bg); }
 
   .hero { padding: 72px 0 56px; }
   .eyebrow {
     display: inline-block; color: var(--gold); font-size: 13px; font-weight: 600;
     letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 16px;
   }
+  html[dir="rtl"] .eyebrow { letter-spacing: 0; }
   h1 {
-    font-size: clamp(32px, 5vw, 52px); line-height: 1.1; margin: 0 0 20px; font-weight: 700;
+    font-size: clamp(32px, 5vw, 52px); line-height: 1.2; margin: 0 0 20px; font-weight: 700;
     max-width: 720px;
   }
   .lede { font-size: 18px; color: var(--text-dim); max-width: 620px; margin: 0 0 32px; }
@@ -96,6 +110,7 @@
   .contact-email {
     display: inline-block; margin-top: 20px; font-size: 17px; font-weight: 600;
     color: var(--gold); text-decoration: none;
+    direction: ltr;
   }
 
   footer {
@@ -103,7 +118,7 @@
     display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
   }
 
-  @media (max-width: 560px) {
+  @media (max-width: 640px) {
     nav { display: none; }
     .steps .step { flex-direction: column; gap: 8px; }
   }
@@ -113,68 +128,76 @@
   <div class="wrap">
     <header>
       <div class="brand"><span class="brand-mark">O</span> Obsidian</div>
-      <nav>
-        <a href="#what-we-do">What we do</a>
-        <a href="#how-it-works">How it works</a>
-        <a href="#contact">Contact</a>
-      </nav>
+      <div class="header-right">
+        <nav>
+          <a href="#what-we-do" data-en="What we do" data-ar="ماذا نقدم">What we do</a>
+          <a href="#how-it-works" data-en="How it works" data-ar="كيف يعمل">How it works</a>
+          <a href="#contact" data-en="Contact" data-ar="تواصل معنا">Contact</a>
+        </nav>
+        <div class="lang-toggle">
+          <button type="button" id="lang-en" class="active" onclick="setLang('en')">EN</button>
+          <button type="button" id="lang-ar" onclick="setLang('ar')">عربي</button>
+        </div>
+      </div>
     </header>
 
     <div class="hero">
-      <span class="eyebrow">Business Software, Built For You</span>
-      <h1>A business management app, built and branded for your company.</h1>
-      <p class="lede">
+      <span class="eyebrow" data-en="Business Software, Built For You" data-ar="برمجيات أعمال، مصممة خصيصًا لك">Business Software, Built For You</span>
+      <h1 data-en="A business management app, built and branded for your company." data-ar="تطبيق لإدارة أعمالك، مصمم وبهوية شركتك الخاصة.">A business management app, built and branded for your company.</h1>
+      <p class="lede"
+        data-en="We design, build, and host custom business management software for small and medium businesses — inventory, sales, invoicing, customer records, and an AI assistant that understands your business. No off-the-shelf software, no per-seat licensing headaches. Just your business, running on your own app."
+        data-ar="نصمم ونطوّر ونستضيف برمجيات إدارة أعمال مخصصة للشركات الصغيرة والمتوسطة — المخزون، المبيعات، الفوترة، سجلات العملاء، ومساعد ذكاء اصطناعي يفهم طبيعة عملك. بلا برامج جاهزة، وبلا تعقيدات تراخيص لكل مستخدم. فقط عملك، يعمل على تطبيقك الخاص.">
         We design, build, and host custom business management software for small and medium
         businesses — inventory, sales, invoicing, customer records, and an AI assistant that
         understands your business. No off-the-shelf software, no per-seat licensing headaches.
         Just your business, running on your own app.
       </p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="#contact">Get in touch</a>
-        <a class="btn btn-ghost" href="#what-we-do">See what's included</a>
+        <a class="btn btn-primary" href="#contact" data-en="Get in touch" data-ar="تواصل معنا">Get in touch</a>
+        <a class="btn btn-ghost" href="#what-we-do" data-en="See what's included" data-ar="تعرف على ما هو مشمول">See what's included</a>
       </div>
     </div>
   </div>
 
   <section id="what-we-do">
     <div class="wrap">
-      <h2>What's included</h2>
-      <p class="section-lede">Every app is tailored to your business, drawn from a set of proven modules.</p>
+      <h2 data-en="What's included" data-ar="ما الذي يشمله التطبيق">What's included</h2>
+      <p class="section-lede" data-en="Every app is tailored to your business, drawn from a set of proven modules." data-ar="كل تطبيق مصمم خصيصًا لعملك، ومبني من مجموعة وحدات مجرّبة.">Every app is tailored to your business, drawn from a set of proven modules.</p>
       <div class="grid">
-        <div class="card"><div class="card-title"><span class="dot"></span>Inventory &amp; stock</div><div class="card-body">Track products, stock levels, and movements in real time.</div></div>
-        <div class="card"><div class="card-title"><span class="dot"></span>Sales &amp; invoicing</div><div class="card-body">Record sales, issue invoices, and manage payment status.</div></div>
-        <div class="card"><div class="card-title"><span class="dot"></span>Customers</div><div class="card-body">Keep a clean record of every customer and their history with you.</div></div>
-        <div class="card"><div class="card-title"><span class="dot"></span>Purchase orders &amp; shipping</div><div class="card-body">Manage suppliers, orders, and incoming shipments.</div></div>
-        <div class="card"><div class="card-title"><span class="dot"></span>Expenses &amp; reports</div><div class="card-body">Track costs and see how the business is actually doing.</div></div>
-        <div class="card"><div class="card-title"><span class="dot"></span>AI assistant</div><div class="card-body">A built-in assistant that can look up records and take action for you, on request.</div></div>
+        <div class="card"><div class="card-title"><span class="dot"></span><span data-en="Inventory &amp; stock" data-ar="المخزون والمستودعات">Inventory &amp; stock</span></div><div class="card-body" data-en="Track products, stock levels, and movements in real time." data-ar="تتبّع المنتجات ومستويات المخزون وحركته لحظة بلحظة.">Track products, stock levels, and movements in real time.</div></div>
+        <div class="card"><div class="card-title"><span class="dot"></span><span data-en="Sales &amp; invoicing" data-ar="المبيعات والفوترة">Sales &amp; invoicing</span></div><div class="card-body" data-en="Record sales, issue invoices, and manage payment status." data-ar="سجّل المبيعات، أصدر الفواتير، وتابع حالة الدفع.">Record sales, issue invoices, and manage payment status.</div></div>
+        <div class="card"><div class="card-title"><span class="dot"></span><span data-en="Customers" data-ar="العملاء">Customers</span></div><div class="card-body" data-en="Keep a clean record of every customer and their history with you." data-ar="احتفظ بسجل منظم لكل عميل وتاريخه معك.">Keep a clean record of every customer and their history with you.</div></div>
+        <div class="card"><div class="card-title"><span class="dot"></span><span data-en="Purchase orders &amp; shipping" data-ar="أوامر الشراء والشحن">Purchase orders &amp; shipping</span></div><div class="card-body" data-en="Manage suppliers, orders, and incoming shipments." data-ar="أدر الموردين والطلبات والشحنات الواردة.">Manage suppliers, orders, and incoming shipments.</div></div>
+        <div class="card"><div class="card-title"><span class="dot"></span><span data-en="Expenses &amp; reports" data-ar="المصروفات والتقارير">Expenses &amp; reports</span></div><div class="card-body" data-en="Track costs and see how the business is actually doing." data-ar="تتبّع التكاليف واطّلع على الأداء الحقيقي لعملك.">Track costs and see how the business is actually doing.</div></div>
+        <div class="card"><div class="card-title"><span class="dot"></span><span data-en="AI assistant" data-ar="مساعد الذكاء الاصطناعي">AI assistant</span></div><div class="card-body" data-en="A built-in assistant that can look up records and take action for you, on request." data-ar="مساعد مدمج يستطيع البحث في السجلات وتنفيذ الإجراءات نيابة عنك عند الطلب.">A built-in assistant that can look up records and take action for you, on request.</div></div>
       </div>
     </div>
   </section>
 
   <section id="how-it-works">
     <div class="wrap">
-      <h2>How it works</h2>
-      <p class="section-lede">From a conversation to a working app, without the usual software-project overhead.</p>
+      <h2 data-en="How it works" data-ar="كيف يعمل">How it works</h2>
+      <p class="section-lede" data-en="From a conversation to a working app, without the usual software-project overhead." data-ar="من مجرد حديث إلى تطبيق فعلي جاهز، دون تعقيدات مشاريع البرمجيات المعتادة.">From a conversation to a working app, without the usual software-project overhead.</p>
       <div class="steps">
         <div class="step">
           <div class="step-num"></div>
           <div>
-            <div class="step-title">We talk about your business</div>
-            <div class="step-body">What you sell, how you work, and what you actually need day to day.</div>
+            <div class="step-title" data-en="We talk about your business" data-ar="نتحدث عن عملك">We talk about your business</div>
+            <div class="step-body" data-en="What you sell, how you work, and what you actually need day to day." data-ar="ماذا تبيع، وكيف تعمل، وما تحتاجه فعليًا يوميًا.">What you sell, how you work, and what you actually need day to day.</div>
           </div>
         </div>
         <div class="step">
           <div class="step-num"></div>
           <div>
-            <div class="step-title">We build your app</div>
-            <div class="step-body">Branded to your business, with the modules that fit how you actually operate.</div>
+            <div class="step-title" data-en="We build your app" data-ar="نبني تطبيقك">We build your app</div>
+            <div class="step-body" data-en="Branded to your business, with the modules that fit how you actually operate." data-ar="بهوية عملك، وبالوحدات التي تناسب طريقة عملك الفعلية.">Branded to your business, with the modules that fit how you actually operate.</div>
           </div>
         </div>
         <div class="step">
           <div class="step-num"></div>
           <div>
-            <div class="step-title">You start using it</div>
-            <div class="step-body">Your own login, your own app, hosted under your own subdomain — billed simply, monthly.</div>
+            <div class="step-title" data-en="You start using it" data-ar="تبدأ باستخدامه">You start using it</div>
+            <div class="step-body" data-en="Your own login, your own app, hosted under your own subdomain — billed simply, monthly." data-ar="حساب دخول خاص بك، وتطبيق خاص بك، مستضاف على نطاقك الفرعي الخاص — بفوترة شهرية بسيطة.">Your own login, your own app, hosted under your own subdomain — billed simply, monthly.</div>
           </div>
         </div>
       </div>
@@ -184,8 +207,8 @@
   <section id="contact">
     <div class="wrap">
       <div class="contact-card">
-        <h2>Let's talk about your business</h2>
-        <p class="section-lede" style="margin: 0 auto;">Tell us what you do, and we'll show you what your app could look like.</p>
+        <h2 data-en="Let's talk about your business" data-ar="لنتحدث عن عملك">Let's talk about your business</h2>
+        <p class="section-lede" style="margin: 0 auto;" data-en="Tell us what you do, and we'll show you what your app could look like." data-ar="أخبرنا بما تقوم به، وسنريك كيف سيبدو تطبيقك.">Tell us what you do, and we'll show you what your app could look like.</p>
         <a class="contact-email" href="mailto:zayed@obsidian.com">zayed@obsidian.com</a>
       </div>
     </div>
@@ -193,9 +216,28 @@
 
   <div class="wrap">
     <footer>
-      <div>© 2026 Obsidian. All rights reserved.</div>
-      <div>obsidian-appfactory.com</div>
+      <div data-en="© 2026 Obsidian. All rights reserved." data-ar="© 2026 أوبسيديان. جميع الحقوق محفوظة.">© 2026 Obsidian. All rights reserved.</div>
+      <div style="direction: ltr;">obsidian-appfactory.com</div>
     </footer>
   </div>
+
+  <script>
+    function setLang(lang) {
+      const isAr = lang === 'ar';
+      document.documentElement.lang = lang;
+      document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+      document.querySelectorAll('[data-en]').forEach(function (el) {
+        el.textContent = isAr ? el.getAttribute('data-ar') : el.getAttribute('data-en');
+      });
+      document.getElementById('lang-en').classList.toggle('active', !isAr);
+      document.getElementById('lang-ar').classList.toggle('active', isAr);
+      try { localStorage.setItem('obsidian_lang', lang); } catch (e) {}
+    }
+    (function () {
+      var saved = 'en';
+      try { saved = localStorage.getItem('obsidian_lang') || 'en'; } catch (e) {}
+      if (saved === 'ar') setLang('ar');
+    })();
+  </script>
 </body>
 </html>
