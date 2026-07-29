@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Obsidian — Business Management Apps</title>
+<meta name="description" content="Custom-branded business management web apps for small and medium businesses — inventory, sales, invoicing, customers, and an AI assistant, delivered as a monthly subscription.">
+<style>
+  :root {
+    --gold: #c69a58;
+    --bg: #0c0a09;
+    --bg-2: #151210;
+    --card: #1c1815;
+    --border: #2e2822;
+    --text: #f2ede6;
+    --text-dim: #a89e8f;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 24px 0;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 20px; letter-spacing: 0.02em; }
+  .brand-mark {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--gold), #8a6a3a);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--bg); font-weight: 800; font-size: 16px;
+  }
+  nav a {
+    color: var(--text-dim); text-decoration: none; font-size: 14px; margin-left: 28px;
+  }
+  nav a:hover { color: var(--text); }
+
+  .hero { padding: 72px 0 56px; }
+  .eyebrow {
+    display: inline-block; color: var(--gold); font-size: 13px; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 16px;
+  }
+  h1 {
+    font-size: clamp(32px, 5vw, 52px); line-height: 1.1; margin: 0 0 20px; font-weight: 700;
+    max-width: 720px;
+  }
+  .lede { font-size: 18px; color: var(--text-dim); max-width: 620px; margin: 0 0 32px; }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 13px 24px; border-radius: 10px; font-weight: 600; font-size: 15px;
+    text-decoration: none; transition: transform 0.15s ease;
+  }
+  .btn-primary { background: var(--gold); color: var(--bg); }
+  .btn-primary:hover { transform: translateY(-1px); }
+  .btn-ghost { border: 1px solid var(--border); color: var(--text); }
+  .btn-ghost:hover { border-color: var(--gold); }
+
+  section { padding: 56px 0; border-top: 1px solid var(--border); }
+  h2 { font-size: 28px; margin: 0 0 12px; }
+  .section-lede { color: var(--text-dim); max-width: 560px; margin: 0 0 36px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 22px;
+  }
+  .card-title { font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+  .card-body { color: var(--text-dim); font-size: 14px; }
+
+  .steps { counter-reset: step; }
+  .step { display: flex; gap: 18px; margin-bottom: 28px; }
+  .step:last-child { margin-bottom: 0; }
+  .step-num {
+    counter-increment: step; flex-shrink: 0;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--bg-2); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; color: var(--gold); font-size: 14px;
+  }
+  .step-num::before { content: counter(step); }
+  .step-title { font-weight: 600; margin-bottom: 4px; }
+  .step-body { color: var(--text-dim); font-size: 14px; }
+
+  .contact-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+    padding: 40px; text-align: center;
+  }
+  .contact-card h2 { margin-bottom: 8px; }
+  .contact-email {
+    display: inline-block; margin-top: 20px; font-size: 17px; font-weight: 600;
+    color: var(--gold); text-decoration: none;
+  }
+
+  footer {
+    border-top: 1px solid var(--border); padding: 28px 0; color: var(--text-dim); font-size: 13px;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  }
+
+  @media (max-width: 560px) {
+    nav { display: none; }
+    .steps .step { flex-direction: column; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand"><span class="brand-mark">O</span> Obsidian</div>
+      <nav>
+        <a href="#what-we-do">What we do</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <div class="hero">
+      <span class="eyebrow">Business Software, Built For You</span>
+      <h1>A business management app, built and branded for your company.</h1>
+      <p class="lede">
+        We design, build, and host custom business management software for small and medium
+        businesses — inventory, sales, invoicing, customer records, and an AI assistant that
+        understands your business. No off-the-shelf software, no per-seat licensing headaches.
+        Just your business, running on your own app.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#contact">Get in touch</a>
+        <a class="btn btn-ghost" href="#what-we-do">See what's included</a>
+      </div>
+    </div>
+  </div>
+
+  <section id="what-we-do">
+    <div class="wrap">
+      <h2>What's included</h2>
+      <p class="section-lede">Every app is tailored to your business, drawn from a set of proven modules.</p>
+      <div class="grid">
+        <div class="card"><div class="card-title"><span class="dot"></span>Inventory &amp; stock</div><div class="card-body">Track products, stock levels, and movements in real time.</div></div>
+        <div class="card"><div class="card-title"><span class="dot"></span>Sales &amp; invoicing</div><div class="card-body">Record sales, issue invoices, and manage payment status.</div></div>
+        <div class="card"><div class="card-title"><span class="dot"></span>Customers</div><div class="card-body">Keep a clean record of every customer and their history with you.</div></div>
+        <div class="card"><div class="card-title"><span class="dot"></span>Purchase orders &amp; shipping</div><div class="card-body">Manage suppliers, orders, and incoming shipments.</div></div>
+        <div class="card"><div class="card-title"><span class="dot"></span>Expenses &amp; reports</div><div class="card-body">Track costs and see how the business is actually doing.</div></div>
+        <div class="card"><div class="card-title"><span class="dot"></span>AI assistant</div><div class="card-body">A built-in assistant that can look up records and take action for you, on request.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how-it-works">
+    <div class="wrap">
+      <h2>How it works</h2>
+      <p class="section-lede">From a conversation to a working app, without the usual software-project overhead.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num"></div>
+          <div>
+            <div class="step-title">We talk about your business</div>
+            <div class="step-body">What you sell, how you work, and what you actually need day to day.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num"></div>
+          <div>
+            <div class="step-title">We build your app</div>
+            <div class="step-body">Branded to your business, with the modules that fit how you actually operate.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num"></div>
+          <div>
+            <div class="step-title">You start using it</div>
+            <div class="step-body">Your own login, your own app, hosted under your own subdomain — billed simply, monthly.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact-card">
+        <h2>Let's talk about your business</h2>
+        <p class="section-lede" style="margin: 0 auto;">Tell us what you do, and we'll show you what your app could look like.</p>
+        <a class="contact-email" href="mailto:zayed@obsidian.com">zayed@obsidian.com</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <footer>
+      <div>© 2026 Obsidian. All rights reserved.</div>
+      <div>obsidian-appfactory.com</div>
+    </footer>
+  </div>
+</body>
+</html>
