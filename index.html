@@ -122,6 +122,18 @@
     nav { display: none; }
     .steps .step { flex-direction: column; gap: 8px; }
   }
+
+  .shots-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; }
+  .shot-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    overflow: hidden; display: flex; flex-direction: column;
+  }
+  .shot-card img { display: block; width: 100%; height: auto; }
+  .shot-stack { display: flex; flex-direction: column; gap: 16px; }
+  .shot-caption { padding: 12px 16px; font-size: 13px; color: var(--text-dim); }
+  @media (max-width: 800px) {
+    .shots-grid { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
@@ -158,6 +170,29 @@
       </div>
     </div>
   </div>
+
+  <section id="screenshots">
+    <div class="wrap">
+      <h2 data-en="See it in action" data-ar="شاهده أثناء العمل">See it in action</h2>
+      <p class="section-lede" data-en="A real app, running real data — shown here in both English and Arabic." data-ar="تطبيق حقيقي، يعمل ببيانات حقيقية — معروض هنا بالإنجليزية والعربية.">A real app, running real data — shown here in both English and Arabic.</p>
+      <div class="shots-grid">
+        <div class="shot-card">
+          <img src="/screenshots/dashboard-en.png" alt="Dashboard view, English" loading="lazy">
+          <div class="shot-caption" data-en="Dashboard — revenue, profit, and inventory value at a glance." data-ar="لوحة التحكم — الإيرادات والأرباح وقيمة المخزون بنظرة واحدة.">Dashboard — revenue, profit, and inventory value at a glance.</div>
+        </div>
+        <div class="shot-stack">
+          <div class="shot-card">
+            <img src="/screenshots/inventory-en.png" alt="Inventory list view" loading="lazy">
+            <div class="shot-caption" data-en="Inventory — stock levels tracked in real time." data-ar="المخزون — تتبّع مستويات المخزون لحظة بلحظة.">Inventory — stock levels tracked in real time.</div>
+          </div>
+          <div class="shot-card">
+            <img src="/screenshots/dashboard-ar.png" alt="Dashboard view, Arabic, right-to-left layout" loading="lazy">
+            <div class="shot-caption" data-en="Full Arabic support, right-to-left, not just translated labels." data-ar="دعم عربي كامل، من اليمين لليسار، وليس مجرد ترجمة للتسميات.">Full Arabic support, right-to-left, not just translated labels.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section id="what-we-do">
     <div class="wrap">
