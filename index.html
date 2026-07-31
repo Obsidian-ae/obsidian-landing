@@ -123,16 +123,42 @@
     .steps .step { flex-direction: column; gap: 8px; }
   }
 
-  .shots-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; }
+  .shots-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
   .shot-card {
-    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
-    overflow: hidden; display: flex; flex-direction: column;
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
   }
-  .shot-card img { display: block; width: 100%; height: auto; }
-  .shot-stack { display: flex; flex-direction: column; gap: 16px; }
-  .shot-caption { padding: 12px 16px; font-size: 13px; color: var(--text-dim); }
-  @media (max-width: 800px) {
-    .shots-grid { grid-template-columns: 1fr; }
+  .shot-card.in-view { opacity: 1; transform: translateY(0); }
+  .shot-card:nth-child(2) { transition-delay: 0.1s; }
+  .shot-card:nth-child(3) { transition-delay: 0.2s; }
+  .shot-frame {
+    background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px;
+    overflow: hidden; box-shadow: 0 20px 40px -20px rgba(0,0,0,0.6);
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+  }
+  .shot-card:hover .shot-frame {
+    transform: translateY(-4px);
+    box-shadow: 0 28px 48px -20px rgba(0,0,0,0.7);
+    border-color: #453a2c;
+  }
+  .shot-titlebar {
+    display: flex; align-items: center; gap: 14px;
+    padding: 9px 12px; border-bottom: 1px solid var(--border);
+    direction: ltr; /* real window chrome never mirrors for an RTL page */
+  }
+  .shot-dots { display: flex; gap: 6px; flex-shrink: 0; }
+  .shot-dots span { width: 9px; height: 9px; border-radius: 50%; background: #3a332b; }
+  .shot-url {
+    flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+    padding: 4px 10px; font-size: 11px; color: var(--text-dim);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    direction: ltr; text-align: left;
+  }
+  .shot-media { aspect-ratio: 900 / 460; overflow: hidden; }
+  .shot-media img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .shot-caption { margin-top: 14px; font-size: 14px; color: var(--text-dim); text-align: center; }
+  @media (max-width: 860px) {
+    .shots-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
   }
 </style>
 </head>
@@ -177,18 +203,34 @@
       <p class="section-lede" data-en="A real app, running real data — shown here in both English and Arabic." data-ar="تطبيق حقيقي، يعمل ببيانات حقيقية — معروض هنا بالإنجليزية والعربية.">A real app, running real data — shown here in both English and Arabic.</p>
       <div class="shots-grid">
         <div class="shot-card">
-          <img src="/screenshots/dashboard-en.png" alt="Dashboard view, English" loading="lazy">
-          <div class="shot-caption" data-en="Dashboard — revenue, profit, and inventory value at a glance." data-ar="لوحة التحكم — الإيرادات والأرباح وقيمة المخزون بنظرة واحدة.">Dashboard — revenue, profit, and inventory value at a glance.</div>
+          <div class="shot-frame">
+            <div class="shot-titlebar">
+              <div class="shot-dots"><span></span><span></span><span></span></div>
+              <div class="shot-url">yourbusiness.obsidian-appfactory.com</div>
+            </div>
+            <div class="shot-media"><img src="/screenshots/dashboard-en.png" alt="Dashboard view, English" loading="lazy"></div>
+          </div>
+          <div class="shot-caption" data-en="Revenue, profit, and inventory value at a glance." data-ar="الإيرادات والأرباح وقيمة المخزون بنظرة واحدة.">Revenue, profit, and inventory value at a glance.</div>
         </div>
-        <div class="shot-stack">
-          <div class="shot-card">
-            <img src="/screenshots/inventory-en.png" alt="Inventory list view" loading="lazy">
-            <div class="shot-caption" data-en="Inventory — stock levels tracked in real time." data-ar="المخزون — تتبّع مستويات المخزون لحظة بلحظة.">Inventory — stock levels tracked in real time.</div>
+        <div class="shot-card">
+          <div class="shot-frame">
+            <div class="shot-titlebar">
+              <div class="shot-dots"><span></span><span></span><span></span></div>
+              <div class="shot-url">yourbusiness.obsidian-appfactory.com</div>
+            </div>
+            <div class="shot-media"><img src="/screenshots/inventory-en.png" alt="Inventory list view" loading="lazy"></div>
           </div>
-          <div class="shot-card">
-            <img src="/screenshots/dashboard-ar.png" alt="Dashboard view, Arabic, right-to-left layout" loading="lazy">
-            <div class="shot-caption" data-en="Full Arabic support, right-to-left, not just translated labels." data-ar="دعم عربي كامل، من اليمين لليسار، وليس مجرد ترجمة للتسميات.">Full Arabic support, right-to-left, not just translated labels.</div>
+          <div class="shot-caption" data-en="Stock levels tracked in real time." data-ar="تتبّع مستويات المخزون لحظة بلحظة.">Stock levels tracked in real time.</div>
+        </div>
+        <div class="shot-card">
+          <div class="shot-frame">
+            <div class="shot-titlebar">
+              <div class="shot-dots"><span></span><span></span><span></span></div>
+              <div class="shot-url">yourbusiness.obsidian-appfactory.com</div>
+            </div>
+            <div class="shot-media"><img src="/screenshots/dashboard-ar.png" alt="Dashboard view, Arabic, right-to-left layout" loading="lazy"></div>
           </div>
+          <div class="shot-caption" data-en="Full Arabic support, right-to-left — not just translated labels." data-ar="دعم عربي كامل، من اليمين لليسار — وليس مجرد ترجمة للتسميات.">Full Arabic support, right-to-left — not just translated labels.</div>
         </div>
       </div>
     </div>
@@ -272,6 +314,23 @@
       var saved = 'en';
       try { saved = localStorage.getItem('obsidian_lang') || 'en'; } catch (e) {}
       if (saved === 'ar') setLang('ar');
+    })();
+
+    (function () {
+      var cards = document.querySelectorAll('.shot-card');
+      if (!('IntersectionObserver' in window) || !cards.length) {
+        cards.forEach(function (c) { c.classList.add('in-view'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      cards.forEach(function (c) { io.observe(c); });
     })();
   </script>
 </body>
