@@ -147,7 +147,11 @@
     overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     direction: ltr; text-align: left;
   }
-  .carousel-stage { position: relative; aspect-ratio: 900 / 460; overflow: hidden; }
+  /* Height is set per-slide by JS (each screenshot has its own natural
+     aspect ratio - forcing one shared ratio via CSS either crops or
+     letterboxes whichever slide doesn't match) and transitions smoothly
+     between slides. */
+  .carousel-stage { position: relative; overflow: hidden; transition: height 0.45s ease; }
   .carousel-slide {
     position: absolute; inset: 0;
     opacity: 0; transform: scale(1.03);
@@ -236,14 +240,14 @@
             <div class="carousel-dots-chrome"><span></span><span></span><span></span></div>
             <div class="carousel-url">yourbusiness.obsidian-appfactory.com</div>
           </div>
-          <div class="carousel-stage">
-            <div class="carousel-slide active">
+          <div class="carousel-stage" id="carousel-stage">
+            <div class="carousel-slide active" data-w="900" data-h="485">
               <img src="/screenshots/dashboard-en.png" alt="Dashboard view, English" loading="lazy">
             </div>
-            <div class="carousel-slide">
+            <div class="carousel-slide" data-w="900" data-h="420">
               <img src="/screenshots/inventory-en.png" alt="Inventory list view" loading="lazy">
             </div>
-            <div class="carousel-slide">
+            <div class="carousel-slide" data-w="900" data-h="485">
               <img src="/screenshots/dashboard-ar.png" alt="Dashboard view, Arabic, right-to-left layout" loading="lazy">
             </div>
             <button class="carousel-arrow prev" type="button" aria-label="Previous screenshot" onclick="carouselPrev()">‹</button>
@@ -336,6 +340,13 @@
       var cap = CAROUSEL_CAPTIONS[carouselIndex];
       document.getElementById('carousel-caption').textContent = currentLang === 'ar' ? cap.ar : cap.en;
     }
+    function carouselSizeStage() {
+      var slides = document.querySelectorAll('.carousel-slide');
+      var active = slides[carouselIndex];
+      var stage = document.getElementById('carousel-stage');
+      var ratio = Number(active.dataset.h) / Number(active.dataset.w);
+      stage.style.height = (stage.clientWidth * ratio) + 'px';
+    }
     function carouselShow(i) {
       var slides = document.querySelectorAll('.carousel-slide');
       var dots = document.querySelectorAll('#carousel-dots button');
@@ -343,6 +354,7 @@
       slides.forEach(function (s, idx) { s.classList.toggle('active', idx === carouselIndex); });
       dots.forEach(function (d, idx) { d.classList.toggle('active', idx === carouselIndex); });
       carouselRenderCaption();
+      carouselSizeStage();
     }
     function carouselNext() { carouselShow(carouselIndex + 1); carouselResetTimer(); }
     function carouselPrev() { carouselShow(carouselIndex - 1); carouselResetTimer(); }
@@ -372,10 +384,12 @@
       else carouselRenderCaption();
     })();
 
+    carouselSizeStage();
     carouselResetTimer();
     var carouselEl = document.getElementById('carousel');
     carouselEl.addEventListener('mouseenter', function () { clearInterval(carouselTimer); });
     carouselEl.addEventListener('mouseleave', carouselResetTimer);
+    window.addEventListener('resize', carouselSizeStage);
 
     (function () {
       if (!('IntersectionObserver' in window)) { carouselEl.classList.add('in-view'); return; }
