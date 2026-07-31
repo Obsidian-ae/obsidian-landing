@@ -123,43 +123,72 @@
     .steps .step { flex-direction: column; gap: 8px; }
   }
 
-  .shots-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
-  .shot-card {
-    opacity: 0; transform: translateY(24px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+  .carousel {
+    max-width: 880px; margin: 0 auto;
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
   }
-  .shot-card.in-view { opacity: 1; transform: translateY(0); }
-  .shot-card:nth-child(2) { transition-delay: 0.1s; }
-  .shot-card:nth-child(3) { transition-delay: 0.2s; }
-  .shot-frame {
-    background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px;
-    overflow: hidden; box-shadow: 0 20px 40px -20px rgba(0,0,0,0.6);
-    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+  .carousel.in-view { opacity: 1; transform: translateY(0); }
+  .carousel-frame {
+    position: relative;
+    background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px;
+    overflow: hidden; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.65);
   }
-  .shot-card:hover .shot-frame {
-    transform: translateY(-4px);
-    box-shadow: 0 28px 48px -20px rgba(0,0,0,0.7);
-    border-color: #453a2c;
-  }
-  .shot-titlebar {
+  .carousel-titlebar {
     display: flex; align-items: center; gap: 14px;
-    padding: 9px 12px; border-bottom: 1px solid var(--border);
+    padding: 10px 14px; border-bottom: 1px solid var(--border);
     direction: ltr; /* real window chrome never mirrors for an RTL page */
   }
-  .shot-dots { display: flex; gap: 6px; flex-shrink: 0; }
-  .shot-dots span { width: 9px; height: 9px; border-radius: 50%; background: #3a332b; }
-  .shot-url {
+  .carousel-dots-chrome { display: flex; gap: 6px; flex-shrink: 0; }
+  .carousel-dots-chrome span { width: 9px; height: 9px; border-radius: 50%; background: #3a332b; }
+  .carousel-url {
     flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
-    padding: 4px 10px; font-size: 11px; color: var(--text-dim);
+    padding: 5px 12px; font-size: 12px; color: var(--text-dim);
     overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     direction: ltr; text-align: left;
   }
-  .shot-media { aspect-ratio: 900 / 460; overflow: hidden; }
-  .shot-media img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
-  .shot-caption { margin-top: 14px; font-size: 14px; color: var(--text-dim); text-align: center; }
-  @media (max-width: 860px) {
-    .shots-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+  .carousel-stage { position: relative; aspect-ratio: 900 / 460; overflow: hidden; }
+  .carousel-slide {
+    position: absolute; inset: 0;
+    opacity: 0; transform: scale(1.03);
+    transition: opacity 0.7s ease, transform 7s ease;
+    pointer-events: none;
   }
+  .carousel-slide.active {
+    opacity: 1; transform: scale(1);
+    transition: opacity 0.7s ease, transform 7s ease;
+    pointer-events: auto;
+    z-index: 1;
+  }
+  .carousel-slide img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .carousel-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(12,10,9,0.55); border: 1px solid rgba(242,237,230,0.2);
+    color: var(--text); font-size: 18px; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; z-index: 2; backdrop-filter: blur(2px);
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .carousel-arrow:hover { background: rgba(198,154,88,0.85); border-color: var(--gold); color: var(--bg); }
+  .carousel-arrow.prev { inset-inline-start: 14px; }
+  .carousel-arrow.next { inset-inline-end: 14px; }
+  /* Position mirrors automatically via inset-inline-*, but the chevron
+     glyph itself doesn't - flip it too so "prev" still visually points
+     toward where it now sits (right, in RTL) instead of stranding a
+     left-pointing arrow on the right edge. */
+  html[dir="rtl"] .carousel-arrow { transform: translateY(-50%) scaleX(-1); }
+  .carousel-caption {
+    margin-top: 20px; font-size: 15px; color: var(--text-dim); text-align: center;
+    min-height: 1.6em;
+  }
+  .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-top: 16px; }
+  .carousel-dots button {
+    width: 8px; height: 8px; border-radius: 50%; padding: 0;
+    border: none; background: var(--border); cursor: pointer;
+    transition: background 0.25s ease, transform 0.25s ease;
+  }
+  .carousel-dots button.active { background: var(--gold); transform: scale(1.3); }
 </style>
 </head>
 <body>
@@ -201,36 +230,31 @@
     <div class="wrap">
       <h2 data-en="See it in action" data-ar="شاهده أثناء العمل">See it in action</h2>
       <p class="section-lede" data-en="A real app, running real data — shown here in both English and Arabic." data-ar="تطبيق حقيقي، يعمل ببيانات حقيقية — معروض هنا بالإنجليزية والعربية.">A real app, running real data — shown here in both English and Arabic.</p>
-      <div class="shots-grid">
-        <div class="shot-card">
-          <div class="shot-frame">
-            <div class="shot-titlebar">
-              <div class="shot-dots"><span></span><span></span><span></span></div>
-              <div class="shot-url">yourbusiness.obsidian-appfactory.com</div>
-            </div>
-            <div class="shot-media"><img src="/screenshots/dashboard-en.png" alt="Dashboard view, English" loading="lazy"></div>
+      <div class="carousel" id="carousel">
+        <div class="carousel-frame">
+          <div class="carousel-titlebar">
+            <div class="carousel-dots-chrome"><span></span><span></span><span></span></div>
+            <div class="carousel-url">yourbusiness.obsidian-appfactory.com</div>
           </div>
-          <div class="shot-caption" data-en="Revenue, profit, and inventory value at a glance." data-ar="الإيرادات والأرباح وقيمة المخزون بنظرة واحدة.">Revenue, profit, and inventory value at a glance.</div>
+          <div class="carousel-stage">
+            <div class="carousel-slide active">
+              <img src="/screenshots/dashboard-en.png" alt="Dashboard view, English" loading="lazy">
+            </div>
+            <div class="carousel-slide">
+              <img src="/screenshots/inventory-en.png" alt="Inventory list view" loading="lazy">
+            </div>
+            <div class="carousel-slide">
+              <img src="/screenshots/dashboard-ar.png" alt="Dashboard view, Arabic, right-to-left layout" loading="lazy">
+            </div>
+            <button class="carousel-arrow prev" type="button" aria-label="Previous screenshot" onclick="carouselPrev()">‹</button>
+            <button class="carousel-arrow next" type="button" aria-label="Next screenshot" onclick="carouselNext()">›</button>
+          </div>
         </div>
-        <div class="shot-card">
-          <div class="shot-frame">
-            <div class="shot-titlebar">
-              <div class="shot-dots"><span></span><span></span><span></span></div>
-              <div class="shot-url">yourbusiness.obsidian-appfactory.com</div>
-            </div>
-            <div class="shot-media"><img src="/screenshots/inventory-en.png" alt="Inventory list view" loading="lazy"></div>
-          </div>
-          <div class="shot-caption" data-en="Stock levels tracked in real time." data-ar="تتبّع مستويات المخزون لحظة بلحظة.">Stock levels tracked in real time.</div>
-        </div>
-        <div class="shot-card">
-          <div class="shot-frame">
-            <div class="shot-titlebar">
-              <div class="shot-dots"><span></span><span></span><span></span></div>
-              <div class="shot-url">yourbusiness.obsidian-appfactory.com</div>
-            </div>
-            <div class="shot-media"><img src="/screenshots/dashboard-ar.png" alt="Dashboard view, Arabic, right-to-left layout" loading="lazy"></div>
-          </div>
-          <div class="shot-caption" data-en="Full Arabic support, right-to-left — not just translated labels." data-ar="دعم عربي كامل، من اليمين لليسار — وليس مجرد ترجمة للتسميات.">Full Arabic support, right-to-left — not just translated labels.</div>
+        <div class="carousel-caption" id="carousel-caption"></div>
+        <div class="carousel-dots" id="carousel-dots">
+          <button type="button" class="active" onclick="carouselGo(0)" aria-label="Slide 1"></button>
+          <button type="button" onclick="carouselGo(1)" aria-label="Slide 2"></button>
+          <button type="button" onclick="carouselGo(2)" aria-label="Slide 3"></button>
         </div>
       </div>
     </div>
@@ -299,8 +323,38 @@
   </div>
 
   <script>
+    var CAROUSEL_CAPTIONS = [
+      { en: "Dashboard — revenue, profit, and inventory value at a glance.", ar: "لوحة التحكم — الإيرادات والأرباح وقيمة المخزون بنظرة واحدة." },
+      { en: "Inventory — stock levels tracked in real time.", ar: "المخزون — تتبّع مستويات المخزون لحظة بلحظة." },
+      { en: "Full Arabic support, right-to-left — not just translated labels.", ar: "دعم عربي كامل، من اليمين لليسار — وليس مجرد ترجمة للتسميات." },
+    ];
+    var carouselIndex = 0;
+    var carouselTimer = null;
+    var currentLang = 'en';
+
+    function carouselRenderCaption() {
+      var cap = CAROUSEL_CAPTIONS[carouselIndex];
+      document.getElementById('carousel-caption').textContent = currentLang === 'ar' ? cap.ar : cap.en;
+    }
+    function carouselShow(i) {
+      var slides = document.querySelectorAll('.carousel-slide');
+      var dots = document.querySelectorAll('#carousel-dots button');
+      carouselIndex = (i + slides.length) % slides.length;
+      slides.forEach(function (s, idx) { s.classList.toggle('active', idx === carouselIndex); });
+      dots.forEach(function (d, idx) { d.classList.toggle('active', idx === carouselIndex); });
+      carouselRenderCaption();
+    }
+    function carouselNext() { carouselShow(carouselIndex + 1); carouselResetTimer(); }
+    function carouselPrev() { carouselShow(carouselIndex - 1); carouselResetTimer(); }
+    function carouselGo(i) { carouselShow(i); carouselResetTimer(); }
+    function carouselResetTimer() {
+      clearInterval(carouselTimer);
+      carouselTimer = setInterval(function () { carouselShow(carouselIndex + 1); }, 4500);
+    }
+
     function setLang(lang) {
       const isAr = lang === 'ar';
+      currentLang = lang;
       document.documentElement.lang = lang;
       document.documentElement.dir = isAr ? 'rtl' : 'ltr';
       document.querySelectorAll('[data-en]').forEach(function (el) {
@@ -308,20 +362,23 @@
       });
       document.getElementById('lang-en').classList.toggle('active', !isAr);
       document.getElementById('lang-ar').classList.toggle('active', isAr);
+      carouselRenderCaption();
       try { localStorage.setItem('obsidian_lang', lang); } catch (e) {}
     }
     (function () {
       var saved = 'en';
       try { saved = localStorage.getItem('obsidian_lang') || 'en'; } catch (e) {}
       if (saved === 'ar') setLang('ar');
+      else carouselRenderCaption();
     })();
 
+    carouselResetTimer();
+    var carouselEl = document.getElementById('carousel');
+    carouselEl.addEventListener('mouseenter', function () { clearInterval(carouselTimer); });
+    carouselEl.addEventListener('mouseleave', carouselResetTimer);
+
     (function () {
-      var cards = document.querySelectorAll('.shot-card');
-      if (!('IntersectionObserver' in window) || !cards.length) {
-        cards.forEach(function (c) { c.classList.add('in-view'); });
-        return;
-      }
+      if (!('IntersectionObserver' in window)) { carouselEl.classList.add('in-view'); return; }
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
@@ -330,7 +387,7 @@
           }
         });
       }, { threshold: 0.15 });
-      cards.forEach(function (c) { io.observe(c); });
+      io.observe(carouselEl);
     })();
   </script>
 </body>
